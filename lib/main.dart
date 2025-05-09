@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:pixelpage/src/pages/home.dart'; // adjust path as per your project
-import 'package:pixelpage/src/pages/Auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import './src/pages/home.dart';
+import './src/pages/auth.dart';
+import './src/pages/redirect.dart'; // 👈 create this page
+
+
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
@@ -16,17 +21,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box  = GetStorage();
-    final isLoggedIn = box.read('isLoggedIn');
-
     return MaterialApp(
       title: 'Pixel Page',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      initialRoute: isLoggedIn == true ? '/home' : '/',
+      initialRoute: '/redirect',
       routes: {
-        '/': (context) => const AuthPage(),    // or HomePage if already logged in
-        '/home': (context) => const HomePage(), // 👈 define this
+        '/redirect': (_) => const RedirectPage(),
+        '/auth': (_) => const AuthPage(),
+        '/home': (_) => const HomePage(),
       },
     );
   }

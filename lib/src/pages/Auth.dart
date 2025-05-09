@@ -32,7 +32,7 @@ class _AuthPageState extends State<AuthPage> {
     // Redirect to home if already logged in
     if (box.read('isLoggedIn') == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       });
     }
 
@@ -40,7 +40,7 @@ class _AuthPageState extends State<AuthPage> {
     box.listenKey('isLoggedIn', (value) {
       if (mounted) {
         final route = value == true ? '/home' : '/';
-        Navigator.pushReplacementNamed(context, route);
+        Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
       }
     });
   }
@@ -260,7 +260,7 @@ By continuing, you confirm you’ve read and accepted these terms.
                                     });
                                   }
                                 });
-                                Navigator.pushReplacementNamed(context, '/home');
+                                Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                               } else {
                                 _showStyledSnackBar(
                                   'Incorrect email or password',
@@ -340,4 +340,3 @@ By continuing, you confirm you’ve read and accepted these terms.
     );
   }
 }
-
